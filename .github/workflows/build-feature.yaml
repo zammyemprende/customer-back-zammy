@@ -1,0 +1,26 @@
+name: Maven Build Feature Branch
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+
+jobs:
+  build-feature:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.0.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build with Maven
+        run: mvn -B clean install # El flag -B es para modo batch, que evita logs interactivos
+
+      - name: Run unit tests
+        run: mvn test
